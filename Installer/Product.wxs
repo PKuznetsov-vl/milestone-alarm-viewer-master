@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="VisionLabs Alarm Viewer for Milestone XProtect" Language="1033" Version="1.0.0.0" Manufacturer="VisionLabs" UpgradeCode="3a4782ec-f4f5-4920-a139-1f68753582cb">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Platform="x64" Manufacturer="P.Kuznetsov" />
+    <Property Id="ARPNOMODIFY" Value="yes" Secure="yes"/>
+    
+    <CustomAction Id="PreventDowngrading" Error="Newer version already installed." />
+    <Upgrade Id="3a4782ec-f4f5-4920-a139-1f68753582cb">
+      <UpgradeVersion Minimum="1.0.0.0" Property="NEWPRODUCTFOUND" OnlyDetect="yes" IncludeMinimum="no" Language="1033" />
+    </Upgrade>
+    <Property Id="ARPCONTACT" Value="P.Kuznetsov" />
+    <InstallUISequence>
+      <Custom Action="VSDCA_AllUsers" After="CostInitialize"><![CDATA[Installed="" AND NOT RESUME AND ALLUSERS=1]]></Custom>
+      <Custom Action="PreventDowngrading" After="FindRelatedProducts"><![CDATA[NEWPRODUCTFOUND]]></Custom>
+      <FindRelatedProducts Sequence="200" />
+    </InstallUISequence>
+    <InstallExecuteSequence>
+      <Custom Action="VSDCA_AllUsers" After="CostInitialize"><![CDATA[Installed="" AND NOT RESUME AND ALLUSERS=1]]></Custom>
+      <Custom Action="PreventDowngrading" After="FindRelatedProducts"><![CDATA[NEWPRODUCTFOUND]]></Custom>
+    </InstallExecuteSequence>
+    <CustomAction Id="VSDCA_AllUsers" Property="ALLUSERS" Value="2" Execute="firstSequence" />
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+    <Feature Id="ProductFeature" Title="Alarm Viewer" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+    </Feature>
+  </Product>
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="MILESTONEDIR" Name="Milestone">
+          <Directory Id="MIPPLUGINS" Name="MIPPlugins">
+            <Directory Id="INSTALLFOLDER" Name="VLAlarmViewer" />
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+  </Fragment>
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Component Id="ProductComponent" Guid="CADD7195-0AD1-454D-B915-244EE38E0B4F">
+        <File Source="$(var.VLAlarmViewer.TargetPath)" />
+        <File Source="$(var.VLAlarmViewer.TargetDir)\\plugin.def" />
+        <File Source="$(var.VLAlarmViewer.TargetDir)\\Newtonsoft.Json.dll" />
+        <File Source="$(var.VLAlarmViewer.TargetDir)\\Newtonsoft.Json.xml" />
+ 
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>
