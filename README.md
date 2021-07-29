@@ -82,7 +82,7 @@ C:\Program Files\Milestone\MIPPlugins\VLAlarmViewer
 and restart Smart Client.
 
 ### End user installation
-Run the installer (`VLAlarmViewer.msi`), it will extract the plugin files automatically to:
+Run the installer (`App\VLAlarmViewer.msi`), it will extract the plugin files automatically to:
 ```
 C:\Program Files\Milestone\MIPPlugins\VLAlarmViewer
 ```
